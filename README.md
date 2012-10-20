@@ -44,6 +44,9 @@ eg:
     redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
     redmine_priority: Immediate
 
+## Installation
+
+TODO
 
 ## Configuration
 
@@ -51,8 +54,17 @@ TODO
 
 ## Testing and development
 
-TODO
+    $ git clone git@github.com:Virtualmaster/sensu-virtualmaster.git
+    $ cd sensu-virtualmaster
+    $ bundle install
+    $ bundle exec guard
 
-- rspec
-- guard
-- development environment
+    
+1. write test and save
+2. on save Guard will run your test
+3. see your test failing
+4. write the code
+5. on save Guard will run tests 
+6. iterate until your tests are passing
+
+    

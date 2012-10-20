@@ -1,0 +1,23 @@
+{
+  "redis": {
+    "port": 6379,
+    "host": "redis1.dom.tld"
+  },
+  "rabbitmq": {
+    "port": 5672,
+    "password": "secret",
+    "vhost": "/sensu",
+    "user": "sensu",
+    "host": "rabbitmq1.dom.tld"
+  },
+  "api": {
+    "port": 4567,
+    "host": "sensu1.dom.tld"
+  },
+  "dashboard": {
+    "port": 8080,
+    "password": "secret",
+    "user": "admin",
+    "host": "sensu1.dom.tld"
+  }
+}

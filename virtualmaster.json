@@ -1,0 +1,14 @@
+{
+  "virtualmaster": {
+    "xmpp": {
+      "jid": "myid",
+      "password": "mypassword",
+      "target": "somewhere@wherever.com",
+      "target_type": "conference",
+      "server": "chickens.nuggets.com"
+    },
+    "foreman":{
+      "host": "http://foreman.doman.tld"
+    }
+  }
+}
