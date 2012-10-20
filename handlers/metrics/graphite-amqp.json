@@ -1,0 +1,10 @@
+{
+ "graphite": {
+    "server":"rabbitmq.example.com",
+    "port":"5672",
+    "vhost":"/",
+    "user":"username",
+    "password":"password",
+    "exchange":"exchange",
+ }
+}
