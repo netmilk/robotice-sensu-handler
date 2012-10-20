@@ -58,11 +58,11 @@ TODO
     $ cd sensu-virtualmaster
     $ bundle install
 
-** First pass all tests **
+* First pass all tests *
 
     $ bundle exec rspec
 
-** Then let's start TDD ** 
+* Then let's start TDD * 
 
     $ bundle exec guard
 
