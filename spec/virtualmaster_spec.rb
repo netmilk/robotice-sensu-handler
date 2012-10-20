@@ -30,12 +30,37 @@ describe VirtualmasterHandler do
          to_return(:status => 200, :body => "", :headers => {})
     end
 
+    # will be removed when implementation starts
+    #  it's here only to see test working
     it "should raise" do 
-
       lambda {
         handle event_descriptor
       }.should raise_error
     end 
+
+    it "should create Foreman lookup"
+
+    context "Foreman is not available" do
+      it "should send SMS message"
+    end
+
+    describe "compiled XMPP message" do 
+      it "should containg priority class"
+      it "should contain Redmine project"
+      it "should contain Sensu check output"
+    end 
+
+    it "should send compiled message via XMPP"
+
+    context "XMPP message sending failed" do 
+      it "should send SMS message"
+    end
+
+    it "should create new Redmine issue (Steering wheel)"
+    
+    context "Redmine is not available" do
+      it "should send SMS message"
+    end
   end
 end
 
