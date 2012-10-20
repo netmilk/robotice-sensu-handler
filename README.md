@@ -32,7 +32,6 @@ You need to add some custom fields and enummerators to Redmine:
 
 Foreman have to know aobut host's priority class and project in Redmine.
 
-
 *Add host parametrs* 
 
 (Edit hosts, Tab parameters)
@@ -41,7 +40,6 @@ Foreman have to know aobut host's priority class and project in Redmine.
 - redmine_priority_id
 
 eg:
-
 
    redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
    redmine_priority: Immediate
@@ -54,11 +52,5 @@ TODO
 ## Testing and development
 
 TODO
-
-
-
-
-
-
 
 
