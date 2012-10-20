@@ -60,9 +60,12 @@ TODO
 
 * First pass all tests *
 
+
     $ bundle exec rspec
 
+
 * Then let's start TDD * 
+
 
     $ bundle exec guard
 
