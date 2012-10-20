@@ -11,8 +11,8 @@ You need to add some custom fields and enummerators to Redmine:
 *Project custom fields*
 
 - max_available_priority
-- operator_auto_aprooval_limit
-- supervisor_auto_aprooval_limit
+- operator_auto_approval_limit
+- supervisor_auto_approval_limit
 - max_available_priority
 - billing_customer_url
 
@@ -52,5 +52,3 @@ TODO
 ## Testing and development
 
 TODO
-
-
