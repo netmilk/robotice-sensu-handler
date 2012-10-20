@@ -11,9 +11,9 @@ You need to add some custom fields and enummerators to Redmine:
 *Project custom fields*
 
 - max_available_priority
-- operator_auto_aprooval_limit
-- supervisor_auto_aprooval_limit
-- max_available_priority
+- operator_auto_approval_limit
+- supervisor_auto_approval_limit
+- max_priority
 - billing_customer_url
 
 *User custom fields*
@@ -41,8 +41,8 @@ Foreman have to know aobut host's priority class and project in Redmine.
 
 eg:
 
-   redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
-   redmine_priority: Immediate
+    redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
+    redmine_priority: Immediate
 
 
 ## Configuration
@@ -53,4 +53,6 @@ TODO
 
 TODO
 
-
+- rspec
+- guard
+- development environment
