@@ -28,8 +28,14 @@ class Foreman
       resp = http.get(uri.path + "?" + uri.query)
     rescue Timeout::Error
       raise StandardError, "Foreman timeouted after #{limit} seconds."
-    rescue 
+    rescue SocketError
       raise StandardError, "Foreman is down or not reachable"
+    rescue StandardError => e
+      if e.message == "Errno::ECONNREFUSED"
+        raise StandardError, "Foreman is down or not reachable"
+      else
+        raise e
+      end
     end
 
     resp_text = resp.body

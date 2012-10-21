@@ -1,10 +1,7 @@
 require File.join(File.dirname(__FILE__),'..','spec_helper.rb')
 
-
-
 describe Foreman do
   before do 
-
     stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
@@ -15,6 +12,11 @@ describe Foreman do
     stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
       with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
       to_return(mock_response('foreman/valid_response'))
+
+    # mock sending xmpp messages globally
+    # TODO try to re-invent this to be more DRYer
+    # it's already menitoned in virtualmster_spec.rb
+    Xmpp.any_instance.stub(:send_message).and_return(true)
   end
   describe "object instance" do
 
