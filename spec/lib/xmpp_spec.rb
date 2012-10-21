@@ -5,7 +5,7 @@ describe Xmpp do
     # mock sending xmpp messages globally
     # TODO try to re-invent this to be more DRYer
     # it's already menitoned in virtualmster_spec.rb
-    #Xmpp.any_instance.stub(:send_message).and_return(true)
+    Xmpp.any_instance.stub(:send_message).and_return(true)
   end
   describe "object instance" do
     before do 
@@ -39,10 +39,6 @@ describe Xmpp do
     end
     
     describe "#send_message" do 
-      before do 
-        #Xmpp.any_instance.unstub(:send_message)
-      end
-
       context "contact_type is not 'conference'" do 
         before do 
  
@@ -51,6 +47,7 @@ describe Xmpp do
           Jabber::MUC::MUCClient.any_instance.stub(:join){true}
 
           @h = handle event_descriptor
+          Xmpp.any_instance.unstub(:send_message)
         end
         
         it "Jabber::Client should receive :send" do
@@ -61,6 +58,7 @@ describe Xmpp do
           x.send_message("message")
         end
       end
+
       context "contact_type is 'conference'" do 
         before do 
           Jabber::Client.any_instance.stub(:connect).and_return(true)
@@ -69,7 +67,10 @@ describe Xmpp do
           jid_mock.stub(:node) { "node"}
           Jabber::Client.any_instance.stub(:jid).and_return(jid_mock)
           Jabber::MUC::MUCClient.any_instance.stub(:join){true}
+
           @h = handle event_descriptor
+          Xmpp.any_instance.unstub(:send_message)
+
         end
         
         it "Jabber::Client should receive :send" do

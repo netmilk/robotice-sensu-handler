@@ -81,12 +81,12 @@ describe VirtualmasterHandler do
       end
 
       # WIP let's continue with redmine intergration and remove this
-      #context "jabber contact is conference" do 
-      #  it "should send xmpp message" do
-      #    Xmpp.any_instance.should_receive(:send_message)
-      #    handle event_descriptor
-      #  end
-      #end
+      context "jabber contact is conference" do 
+        it "should send xmpp message" do
+          Xmpp.any_instance.should_receive(:send_message)
+          handle event_descriptor
+        end
+      end
       
       context "Redmine is not available" do
         pending "should create error message" do 

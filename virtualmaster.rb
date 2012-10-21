@@ -49,8 +49,8 @@ class VirtualmasterHandler < Sensu::Handler
     @xmpp_message = msg
 
     # WIP let's continue with redmine intergration and remove this
-    #x = Xmpp.new self
-    #x.send_message(self.xmpp_message)
+    x = Xmpp.new self
+    x.send_message(self.xmpp_message)
   end
 end
 
