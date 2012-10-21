@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Date: Sun, 21 Oct 2012 14:11:42 GMT
+Server: Apache/2.2.22 (Ubuntu)
+X-Powered-By: Phusion Passenger (mod_rails/mod_rack) 2.2.11
+X-Runtime: 0.057400
+ETag: "504f707c79c0a1ed57c4b32f6df9ca0b"
+Cache-Control: max-age=0, private, must-revalidate
+X-UA-Compatible: IE=Edge,chrome=1
+Status: 200
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+Content-Type: text/plain; charset=utf-8
+
+--- 
+  classes: 
+    - comvirtualmaster::sensu::client
+    - ntp
+    - puppet
+    - sensucheck::local-common
+    - sensucheck::remote-common
+    - logix
+  environment: &id001 production
+  parameters: 
