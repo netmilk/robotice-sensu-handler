@@ -37,7 +37,7 @@ Foreman have to know aobut host's priority class and project in Redmine.
 (Edit hosts, Tab parameters)
 
 - redmine_project_url
-- redmine_priority_id
+- redmine_priority
 
 eg:
 
@@ -78,4 +78,9 @@ TODO
 5. on file save Guard will run tests 
 6. iterate until your tests are passing
 
-    
+
+### Stubbing HTTP requests
+
+Remote responses are recorded via `curl -is` and saved to `spec/responses/` by
+backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-responses-recorded-with-curl--is) documentation.
+

@@ -19,9 +19,7 @@ def exit code
   code
 end
 
-
 require 'spork'
-require File.join(File.dirname(__FILE__), '../virtualmaster.rb')
 
 Spork.prefork do
   require 'rspec'
@@ -36,7 +34,9 @@ end
 
 Spork.each_run do
   require 'webmock/rspec'
-
+  
+  #require helpers
+  require  File.join(File.dirname(__FILE__), 'virtualmaster_helper.rb')
   
   # include test config
   config_files = [

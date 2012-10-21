@@ -8,7 +8,10 @@
       "server": "chickens.nuggets.com"
     },
     "foreman":{
-      "host": "http://foreman.doman.tld"
+      "host": "http://foreman.domain.tld",
+      "username": "username",
+      "password": "password",
+      "timeout": 1
     }
   }
 }

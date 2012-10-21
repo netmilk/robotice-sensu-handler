@@ -1,6 +1,6 @@
 {
   "client":{
-    "name": "host01",
+    "name": "node1.domain.tld",
     "address": "10.2.1.11",
     "subscriptions": [
       "all",
