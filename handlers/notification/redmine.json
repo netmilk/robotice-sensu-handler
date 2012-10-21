@@ -1,9 +1,0 @@
-{
-  "redmine": {
-    "server": "redmine.example.com",
-    "port": "80",
-    "use_ssl": false,
-    "user": "myuser",
-    "password": "mypassword"
-  }
-}
