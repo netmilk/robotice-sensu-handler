@@ -62,6 +62,7 @@ describe VirtualmasterHandler do
           it "should containg priority class" do 
             should include("Immediate")
           end
+          it "should set priority class based on severity (Critical > Immediate, Warning > Normal)"
           it "should contain Redmine project" do 
             should include("mng-magiclab")
           end
