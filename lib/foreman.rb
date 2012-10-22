@@ -1,22 +1,24 @@
+require 'yaml'
+
 class Foreman
   attr_reader :handler
   
-  def initialize handler
-    if not handler.class == VirtualmasterHandler
+  def initialize h
+    if not h.class == VirtualmasterHandler
       raise StandardError, "First argument must be instance of VirtualmasterHandler"
     end
     
-    if not handler.settings['virtualmaster'].keys.include?('foreman')
+    if not h.settings['virtualmaster'].keys.include?('foreman')
       raise StandardError, 'Handler config have to contain "foreman" section'
     end
-    @handler = handler    
+    @handler = h
   end
   
   def query_host hostname
     host = handler.settings['virtualmaster']['foreman']['host']
     url = host + "/node/#{hostname}?format=yml"
     
-    limit = settings['virtualmaster']['foreman']['timeout']
+    limit = handler.settings['virtualmaster']['foreman']['timeout']
     limit = 1 if limit.nil?
     limit = limit.to_i
 
