@@ -34,9 +34,11 @@ class Xmpp
       room = MUC::MUCClient.new(cl)
       room.join(Jabber::JID.new(xmpp_target+'/'+cl.jid.node))
       room.send m
+      room.exit
     else
       m = Message::new(xmpp_target, message_text).set_type(:normal).set_id('1').set_subject("SENSU ALERT!")
       cl.send m
     end
+    cl.close
   end
 end
