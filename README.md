@@ -46,6 +46,9 @@ eg:
 
 ## Installation
 
+- add virtualmaster_handler.json to /etc/sensu/conf.d
+- copy virtualmaster.json to /etc/sensu/conf.d and edit
+
 TODO
 
 ## Configuration
