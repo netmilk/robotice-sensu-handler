@@ -35,7 +35,7 @@ class VirtualmasterHandler < Sensu::Handler
     f = Foreman.new self
     begin
       data = f.query_host(host_name)
-    rescue => e
+    rescue StandardError => e
       @errors << Error.new(e.message)
     end
     
