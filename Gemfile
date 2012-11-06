@@ -13,4 +13,5 @@ group :test do
   gem 'guard-spork'
   gem 'rb-fsevent'
   gem 'webmock'
+  gem 'rake'
 end
