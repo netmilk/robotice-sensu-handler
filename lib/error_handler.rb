@@ -1,4 +1,4 @@
-class Error
+class ErrorHandler
   attr_reader :message 
   
   def initialize(mes)

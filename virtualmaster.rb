@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
 #
-require 'rubygems' if RUBY_VERSION < '1.9.0'
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require
+
 require 'sensu-handler'
+
 require 'net/http'
 require 'net/https'
 
@@ -36,7 +40,7 @@ class VirtualmasterHandler < Sensu::Handler
     begin
       data = f.query_host(host_name)
     rescue StandardError => e
-      @errors << Error.new(e.message)
+      @errors << ErrorHandler.new(e.message)
     end
     
     # compose xmpp message

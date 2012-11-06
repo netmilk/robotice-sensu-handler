@@ -3,6 +3,7 @@ source "https://rubygems.org"
 
 gem 'sensu-plugin'
 gem 'xmpp4r'
+gem 'nexmo'
 
 group :test do 
   gem "rspec"

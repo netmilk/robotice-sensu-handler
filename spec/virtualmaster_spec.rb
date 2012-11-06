@@ -42,7 +42,7 @@ describe VirtualmasterHandler do
         end
         
         it "should notify new error" do 
-          Error.any_instance.should_receive(:notify)
+          ErrorHandler.any_instance.should_receive(:notify)
           handle event_descriptor
         end
       end
@@ -56,31 +56,38 @@ describe VirtualmasterHandler do
           @handler = handle event_descriptor
         end
 
-        subject{@handler.xmpp_message}
+        context "host does not exist in foreman or exists without metadata" do
+          it "should create some low priority notification"
+        end
 
-        describe "compiled XMPP message" do 
-          it "should containg priority class" do 
-            should include("Immediate")
-          end
-          it "should set priority class based on severity (Critical > Immediate, Warning > Normal)"
-          it "should contain Redmine project" do 
-            should include("mng-magiclab")
-          end
-          
-          it "should contain Sensu check output" do 
-            should include("HTTP CRITICAL")
-          end
-          
-          it "should contain affected host" do
-            should include("node1.domain.tld")
-          end
-          
-          it "should contain Sensu check name" do 
-            should include("frontend_http_check")
+        context "host exists in foreman and has set metadata" do
+          describe "compiled XMPP message" do 
+            subject{@handler.xmpp_message}
+
+            it "should containg priority class" do 
+              should include("Immediate")
+            end
+
+            it "should set priority class based on severity (Critical > Immediate, Warning > Normal)"
+
+            it "should contain Redmine project" do 
+              should include("mng-magiclab")
+            end
+
+            it "should contain Sensu check output" do 
+              should include("HTTP CRITICAL")
+            end
+
+            it "should contain affected host" do
+              should include("node1.domain.tld")
+            end
+
+            it "should contain Sensu check name" do 
+              should include("frontend_http_check")
+            end
           end
         end
       end
-
       # WIP let's continue with redmine intergration and remove this
       context "jabber contact is conference" do 
         it "should send xmpp message" do

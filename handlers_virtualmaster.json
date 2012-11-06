@@ -1,0 +1,8 @@
+{
+  "handlers": {
+    "virtualmaster": {
+      "command": "/etc/sensu/virtualmaster/virtualmaster.rb",
+      "type": "pipe"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+Cache-Control: max-age=1
+Content-Type: application/json;charset=ISO-8859-1
+Transfer-Encoding: chunked
+Server: Jetty(7.6.7.v20120910)
+
+{"message-count":"1","messages":[{"to":"420777770077","message-price":"0.05000000","status":"0","message-id":"030000000B4B28C8","remaining-balance":"1.85000000","network":"23003"}]}

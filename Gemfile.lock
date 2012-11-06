@@ -19,6 +19,8 @@ GEM
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
     mixlib-cli (1.2.2)
+    nexmo (0.4.0)
+      json (~> 1.5)
     rb-fchange (0.0.5)
       ffi
     rb-fsevent (0.9.1)
@@ -49,6 +51,7 @@ DEPENDENCIES
   guard
   guard-rspec
   guard-spork
+  nexmo
   rb-fsevent
   rspec
   sensu-plugin

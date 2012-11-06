@@ -59,7 +59,7 @@ describe Xmpp do
         end
       end
 
-      context "contact_type is 'conference'" do 
+      context "contact_type is 'conference'"  do 
         before do 
           Jabber::Client.any_instance.stub(:connect).and_return(true)
           Jabber::Client.any_instance.stub(:auth).and_return(true)

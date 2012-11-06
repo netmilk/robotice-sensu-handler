@@ -12,6 +12,12 @@
       "username": "username",
       "password": "password",
       "timeout": 1
+    },
+    "sms":{
+      "provider": "nexmo",
+      "key": "12345",
+      "secret": "12345",
+      "from": "Robotice"
     }
   }
 }

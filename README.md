@@ -16,11 +16,6 @@ You need to add some custom fields and enummerators to Redmine:
 - max_priority
 - billing_customer_url
 
-*User custom fields*
-
-- billing_provider_url
-- billing_customer_url
-
 *Priorities enummerators*
 
 - Immediate
@@ -36,18 +31,22 @@ Foreman have to know aobut host's priority class and project in Redmine.
 
 (Edit hosts, Tab parameters)
 
-- redmine_project_url
+- redmine_url
+- redmine_project
 - redmine_priority
 
 eg:
 
-    redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
+    redmine_url: https://support.vmin.cz/
+    redmine_projects: virtualmaster-infrastructure
     redmine_priority: Immediate
 
 ## Installation
 
-- add virtualmaster_handler.json to /etc/sensu/conf.d
-- copy virtualmaster.json to /etc/sensu/conf.d and edit
+- clone `git@github.com:Virtualmaster/sensu-virtualmaster.git` to `/etc/sensu`
+- copy `virtualmaster.json` to `/etc/sensu/conf.d` and credentials to all services
+- copy `handlers_virtualmaster.json` to `/etc/sensu/conf.d`
+- add `virtualmaster` handler to your checks
 
 TODO
 
@@ -86,4 +85,10 @@ TODO
 
 Remote responses are recorded via `curl -is` and saved to `spec/responses/` by
 backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-responses-recorded-with-curl--is) documentation.
+
+## FUTURE
+- silent event check on successful redmine issue creation
+- if hosts exist in foreman and has no redmine project do nothing
+- refactor static redmine project properties as service json scheme
+
 
