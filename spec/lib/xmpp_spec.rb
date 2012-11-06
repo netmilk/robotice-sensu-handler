@@ -67,7 +67,7 @@ describe Xmpp do
           jid_mock.stub(:node) { "node"}
           Jabber::Client.any_instance.stub(:jid).and_return(jid_mock)
           Jabber::MUC::MUCClient.any_instance.stub(:join){true}
-
+          Jabber::MUC::MUCClient.any_instance.stub(:exit){true}
           @h = handle event_descriptor
           Xmpp.any_instance.unstub(:send_message)
 

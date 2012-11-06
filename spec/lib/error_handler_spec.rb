@@ -14,8 +14,8 @@ describe ErrorHandler do
       e.message.should eq(message)
     end
 
-    it "shuold call :notify" do 
-      ErrorHandler.any_instance.should_receive(:notify)
+    it "shuold call :handle" do 
+      ErrorHandler.any_instance.should_receive(:handle)
       ErrorHandler.new(message)
     end 
   end

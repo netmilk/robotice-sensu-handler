@@ -21,5 +21,6 @@ Content-Type: text/plain; charset=utf-8
     - logix
   environment: &id001 production
   parameters: 
-    redmine_project_url: https://redmine.vmin.cz/projects/mng-magiclab.json
+    redmine_url: https://support.vmin.cz
+    redmine_project: mng-magiclab
     redmine_priority: Immediate

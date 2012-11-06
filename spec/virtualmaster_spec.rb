@@ -33,7 +33,7 @@ describe VirtualmasterHandler do
         before do
           stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
             with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-            to_return(mock_response('foreman/host_not_found'))
+            to_timeout
         end
         subject{handle event_descriptor}
 
@@ -42,7 +42,7 @@ describe VirtualmasterHandler do
         end
         
         it "should notify new error" do 
-          ErrorHandler.any_instance.should_receive(:notify)
+          ErrorHandler.any_instance.should_receive(:handle)
           handle event_descriptor
         end
       end
@@ -57,10 +57,10 @@ describe VirtualmasterHandler do
         end
 
         context "host does not exist in foreman or exists without metadata" do
-          it "should create some low priority notification"
+          it "should create some low priority to request resolution of this situation"
         end
 
-        context "host exists in foreman and has set metadata" do
+        context "host exists in foreman and has metadata" do
           describe "compiled XMPP message" do 
             subject{@handler.xmpp_message}
 
@@ -68,7 +68,7 @@ describe VirtualmasterHandler do
               should include("Immediate")
             end
 
-            it "should set priority class based on severity (Critical > Immediate, Warning > Normal)"
+            it "should set priority class based on event severity (Critical > Immediate, Warning > Normal)"
 
             it "should contain Redmine project" do 
               should include("mng-magiclab")
@@ -88,6 +88,7 @@ describe VirtualmasterHandler do
           end
         end
       end
+   
       # WIP let's continue with redmine intergration and remove this
       context "jabber contact is conference" do 
         it "should send xmpp message" do
@@ -101,10 +102,11 @@ describe VirtualmasterHandler do
           subject.errors.length.should eq(1)
         end
         it "should send XMPP message without issue"
+        it "should send SMS"
       end
       
       context "Redmine is available" do 
-        it "should create new Redmine issue (Steering wheel)"
+        it "should create new Redmine issue"
 
         describe "compiled XMPP message" do
           it "should contain event Redmine issue"
@@ -114,7 +116,7 @@ describe VirtualmasterHandler do
       end
       
       context "XMPP message sending failed" do 
-        it "should send error message"
+        it "should send SMS message"
       end
     end
   end

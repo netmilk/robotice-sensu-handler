@@ -12,10 +12,13 @@ end
 # we need to call that overrriden block manually in each test
 def handle event_data
   handler = VirtualmasterHandler.new
+  capture_stdout{
   handler.read_event(event_data)
-  handler.filter
-  handler.handle
+    handler.filter
+    handler.handle
+  }
   handler
+
 end
 
 ## call it: response_mock foreman/valid_response
@@ -31,3 +34,15 @@ def settings
   end
   s
 end
+
+def capture_stdout(&block)
+  original_stdout = $stdout
+  $stdout = fake = StringIO.new
+  begin
+    yield
+  ensure
+    $stdout = original_stdout
+  end
+  fake.string
+end
+

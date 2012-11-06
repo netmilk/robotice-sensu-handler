@@ -1,0 +1,12 @@
+HTTP/1.1 404 Not Found
+Server: nginx/1.2.1
+Date: Tue, 06 Nov 2012 18:54:36 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+Cache-Control: no-cache
+Set-Cookie: autologin=; path=/; expires=Thu, 01-Jan-1970 00:00:00 GMT
+Set-Cookie: _redmine_default=c2Vzc2lvblBAh7BjoP9pZCIlMjIxMDIwZTMyMDAxNjJjMGNjMGIyNGUyMTNhYjc5M2E%3D--e4e6b236396679561d64293c54892bb364092cbd; path=/; HttpOnly
+X-Runtime: 5
+
+ 

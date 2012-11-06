@@ -18,9 +18,11 @@ class VirtualmasterHandler < Sensu::Handler
 
   attr_reader :xmpp_message
   attr_reader :errors
+  attr_reader :redmine
 
   def initialize
     @errors = []
+    @redmine = {}
   end
   
   def check_name
@@ -38,18 +40,20 @@ class VirtualmasterHandler < Sensu::Handler
   def handle
     f = Foreman.new self
     begin
-      data = f.query_host(host_name)
+      foreman_data = f.query_host(host_name)
     rescue StandardError => e
       @errors << ErrorHandler.new(e.message)
     end
+   
+    if not foreman_data.nil?
+      @redmine['url'] = foreman_data['redmine_url']
+      @redmine['project'] = foreman_data['redmine_project']
+      @redmine['priority'] = foreman_data['redmine_priority']
+    end
     
     # compose xmpp message
-    msg = ""
-    msg = data['redmine_project_url'] if not data.nil?
-    msg = msg + " " + data['redmine_priority'] if not data.nil?
-    msg = msg + " " + host_name
-    msg = msg + " " + check_name
-    msg = msg + " " + check_output
+    msg = "#{@redmine['priority']} #{@redmine['project']} #{host_name} #{check_name} #{check_output} #{@redmine['url']}"
+
     @xmpp_message = msg
 
     # WIP let's continue with redmine intergration and remove this

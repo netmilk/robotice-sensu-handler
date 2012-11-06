@@ -20,6 +20,17 @@ describe Sms do
         Sms.new('some string')
       }.should raise_error
     end
+
+    context  "handler settings doeas not contain virtualmster.sms" do 
+      it "should raise" do
+        h = handle event_descriptor
+        h.settings['virtualmaster'].delete('sms')
+        lambda{
+          Sms.new h
+        }.should raise_error(StandardError, 'Sensu handler config have to contain "sms" section')
+      end
+    end
+
     describe "#send_message" do 
       context "with success" do 
         before do 

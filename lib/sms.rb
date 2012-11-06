@@ -5,7 +5,7 @@ class Sms
       raise StandardError, "First argument must be instance of VirtualmasterHandler"
     end
     if not h.settings['virtualmaster'].keys.include?('sms')
-      raise StandardError, 'Handler config have to contain "sms" section'
+      raise StandardError, 'Sensu handler config have to contain "sms" section'
     end
 
     @handler = h

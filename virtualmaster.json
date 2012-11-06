@@ -18,6 +18,11 @@
       "key": "12345",
       "secret": "12345",
       "from": "Robotice"
+    },
+    "redmine": {
+      "host": "http://redmine.domain.tld",
+      "timeout": 1,
+      "key": "s3c43tmuchmuchlonger"
     }
   }
 }

@@ -1,5 +1,98 @@
 require File.join(File.dirname(__FILE__),'..','spec_helper.rb')
 
 describe Redmine do
- 
+
+  def valid_issue
+    {
+      "issue" => {
+        "project_id" => 'virtualmaster-infrastructure',
+        "subject" => 'c1.sit.vmin.cz disk_srv',
+        "description" => 'c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831',
+        "priority_id" => '4' 
+      }
+    }
+  end
+
+  before do
+    stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
+    with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+    to_return(:status => 200, :body => "", :headers => {})
+    stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
+    with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+    to_return(:status => 200, :body => "", :headers => {})
+
+    Xmpp.any_instance.stub(:send_message).and_return(true)
+  end
+  describe "object instance" do
+    subject{Redmine.new(handler)}
+    it{should respond_to(:handler)}
+
+    it "should raise if first argument is not VirtualmasterHandler" do
+      lambda{
+        Redmine.new('some string')
+      }.should raise_error
+    end
+
+    context  "handler settings does not contain virtualmster.redmine" do
+      it "should raise" do
+        h = handle event_descriptor
+        h.settings['virtualmaster'].delete('redmine')
+        lambda{
+          Redmine.new h
+        }.should raise_error(StandardError, 'Sensu handler config have to contain "redmine" section')
+      end
+    end
+
+    describe "#create_issue" do
+      before do
+        @f = Redmine.new(handle(event_descriptor))
+      end
+      context "Redmine is available" do
+        context "it takes more than timeout limit in config" do
+          before do
+            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+              with(:body => "{\"issue\":{\"project_id\":\"virtualmaster-infrastructure\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              to_timeout
+          end
+
+          it "should raise" do
+            limit = settings['virtualmaster']['redmine']['timeout']
+            lambda{
+              subject.create_issue(valid_issue)
+            }.should raise_error(StandardError, "Redmine timeouted after #{limit} seconds.")
+          end
+        end
+
+        context "project does not exist in Redmine or issue not created" do
+          before do
+            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+              with(:body => "{\"issue\":{\"project_id\":\"non_existent_project_id\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              to_return(mock_response('redmine/issue-uknown-project'))
+          end
+
+          it "should return false" do
+            issue = valid_issue
+            issue['issue']['project_id'] = 'non_existent_project_id'
+            subject.create_issue(issue).should eq(false)
+          end
+        end
+
+        context "project exists in Redmine" do
+          before do
+            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+              with(:body => "{\"issue\":{\"project_id\":\"virtualmaster-infrastructure\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              to_return(mock_response('redmine/issue-success'))
+
+          end
+
+          it "should successfuly create issue" do
+            subject.create_issue(valid_issue).should eq(true)
+          end
+        end
+      end
+    end
+  end
 end

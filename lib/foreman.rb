@@ -9,7 +9,7 @@ class Foreman
     end
     
     if not h.settings['virtualmaster'].keys.include?('foreman')
-      raise StandardError, 'Handler config have to contain "foreman" section'
+      raise StandardError, 'Sensu handler config have to contain "foreman" section'
     end
     @handler = h
   end
@@ -43,25 +43,19 @@ class Foreman
     resp_text = resp.body
     
     if resp.code == "404"
-      raise StandardError, "Foreman does not know host '#{hostname}'"
+      return false
     end
     
     response_hash = YAML::load(resp_text)
-
+    
     if response_hash['parameters'].nil?
-      raise "Host '#{hostname}' has not required data in Foreman"
+      return nil
+    else
+      return result = {
+        'redmine_url' => response_hash['parameters']['redmine_url'],
+        'redmine_priority' => response_hash['parameters']['redmine_priority'],
+        'redmine_project' => response_hash['parameters']['redmine_project']
+      }
     end
-
-    result = {
-      'redmine_project_url' => response_hash['parameters']['redmine_project_url'],
-      'redmine_priority' => response_hash['parameters']['redmine_priority']
-    }
-    
-    if result['redmine_project_url'].nil? or result['redmine_priority'].nil?
-      raise "Host '#{hostname}' has not required data in Foreman"
-    end
-
-    result
-    
   end
 end

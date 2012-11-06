@@ -36,7 +36,7 @@ describe Foreman do
         h.settings['virtualmaster'].delete('foreman')
         lambda{
           Foreman.new h
-        }.should raise_error(StandardError, 'Handler config have to contain "foreman" section')
+        }.should raise_error(StandardError, 'Sensu handler config have to contain "foreman" section')
       end
     end
 
@@ -87,9 +87,7 @@ describe Foreman do
               to_return(mock_response('foreman/host_not_found'))
           end 
           it do 
-            lambda{
-              subject.query_host('node1.domain.tld')
-            }.should raise_error(StandardError, "Foreman does not know host 'node1.domain.tld'")
+            subject.query_host('node1.domain.tld').should be_false
           end
         end
 
@@ -102,9 +100,7 @@ describe Foreman do
             end
             
             it do 
-              lambda{
-                subject.query_host('node1.domain.tld')
-              }.should raise_error(StandardError, "Host 'node1.domain.tld' has not required data in Foreman")
+              subject.query_host('node1.domain.tld').should be_nil
             end
           end
 
@@ -117,7 +113,7 @@ describe Foreman do
             it{should be_kind_of(Hash)}
 
             describe "returned hash" do 
-              ['redmine_project_url','redmine_priority'].each do |key|
+              ['redmine_url','redmine_priority','redmine_project'].each do |key|
                 it "should contain key '#{key}'" do
                   subject.keys.should include(key)
                 end

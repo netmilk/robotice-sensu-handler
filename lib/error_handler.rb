@@ -3,10 +3,10 @@ class ErrorHandler
   
   def initialize(mes)
     @message = mes
-    self.notify
+    self.handle
   end
   
-  def notify
-  
+  def handle
+    #TODO log, notify
   end
 end
