@@ -1,4 +1,4 @@
-Virtualmaster sensu handler  [![Build Status](https://travis-ci.org/Virtualmaster/sensu-virtualmaster.png)](https://travis-ci.org/Virtualmaster/sensu-virtualmaster)
+Virtualmaster sensu handler  [![Build Status](https://travis-ci.org/Virtualmaster/sensu-virtualmaster.png?branch=master)](https://travis-ci.org/Virtualmaster/sensu-virtualmaster)
 ==================================
 
 Sensu handler for integration with Foreman, Redmine and XMPP/Jabber
