@@ -1,4 +1,4 @@
-Virtualmaster sensu handler
+Virtualmaster sensu handler  [![Build Status](https://travis-ci.org/Virtualmaster/sensu-virtualmaster.png)](https://travis-ci.org/Virtualmaster/sensu-virtualmaster)
 ==================================
 
 Sensu handler for integration with Foreman, Redmine and XMPP/Jabber
@@ -100,3 +100,4 @@ backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-response
 - make sending SMS optional and configurable
 - distribute as Gem
 - distribute as deb, rpm
+- add Dependency status image https://gemnasium.com/changes
