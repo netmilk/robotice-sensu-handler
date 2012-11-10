@@ -1,5 +1,6 @@
 {
   "virtualmaster": {
+    "user-agent": "Virtualmaster Sensu handler",
     "xmpp": {
       "jid": "myid",
       "password": "mypassword",

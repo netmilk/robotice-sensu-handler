@@ -15,10 +15,14 @@ class Redmine
   def create_issue issue
     host = handler.settings['virtualmaster']['redmine']['host']
     key = handler.settings['virtualmaster']['redmine']['key']
+    agent = handler.settings['virtualmaster']['user-agent']
+
     headers = {
      'Accept' => 'application/json',
-     'Content-Type' => 'application/json'
+     'Content-Type' => 'application/json',
+     'User-Agent'=> agent
     }
+
     url = host + "/issue.json?key=#{key}"
     
     limit = handler.settings['virtualmaster']['redmine']['timeout']

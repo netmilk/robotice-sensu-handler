@@ -16,10 +16,8 @@ describe VirtualmasterHandler do
       before do
         # stubbing web requests
         stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
-          with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => "", :headers => {})
         stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
-           with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
            to_return(:status => 200, :body => "", :headers => {})
       end
 
@@ -32,7 +30,6 @@ describe VirtualmasterHandler do
       context "Foreman raises error" do
         before do
           stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-            with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
             to_timeout
         end
         subject{handle event_descriptor}
@@ -50,7 +47,6 @@ describe VirtualmasterHandler do
       context "Foreman responds correctly" do
         before do 
           stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-            with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
             to_return(mock_response('foreman/valid_response'))
 
           @handler = handle event_descriptor

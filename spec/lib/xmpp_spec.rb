@@ -10,10 +10,8 @@ describe Xmpp do
   describe "object instance" do
     before do 
       stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
-        with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
       stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
-        with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
 
     end

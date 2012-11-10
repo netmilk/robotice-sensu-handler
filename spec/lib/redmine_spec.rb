@@ -15,10 +15,9 @@ describe Redmine do
 
   before do
     stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
-    with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
     to_return(:status => 200, :body => "", :headers => {})
+
     stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
-    with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
     to_return(:status => 200, :body => "", :headers => {})
 
     Xmpp.any_instance.stub(:send_message).and_return(true)
@@ -51,8 +50,8 @@ describe Redmine do
         context "it takes more than timeout limit in config" do
           before do
             stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
-              with(:body => "{\"issue\":{\"project_id\":\"virtualmaster-infrastructure\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
-                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              with(:body => valid_issue.to_json,
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_timeout
           end
 
@@ -66,15 +65,17 @@ describe Redmine do
 
         context "project does not exist in Redmine or issue not created" do
           before do
+            issue_with_non_existent_project = valid_issue
+            @fake_project = issue_with_non_existent_project['issue']['project_id'] = 'wroom'
             stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
-              with(:body => "{\"issue\":{\"project_id\":\"non_existent_project_id\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
-                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              with(:body => issue_with_non_existent_project.to_json,
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_return(mock_response('redmine/issue-uknown-project'))
           end
 
           it "should return false" do
             issue = valid_issue
-            issue['issue']['project_id'] = 'non_existent_project_id'
+            issue['issue']['project_id'] = @fake_project
             subject.create_issue(issue).should eq(false)
           end
         end
@@ -82,10 +83,9 @@ describe Redmine do
         context "project exists in Redmine" do
           before do
             stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
-              with(:body => "{\"issue\":{\"project_id\":\"virtualmaster-infrastructure\",\"subject\":\"c1.sit.vmin.cz disk_srv\",\"description\":\"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831\",\"priority_id\":\"4\"}}",
-                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+              with(:body => valid_issue.to_json,
+                   :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_return(mock_response('redmine/issue-success'))
-
           end
 
           it "should successfuly create issue" do

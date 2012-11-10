@@ -3,14 +3,10 @@ require File.join(File.dirname(__FILE__),'..','spec_helper.rb')
 describe Foreman do
   before do 
     stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
     stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
-      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
-
     stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-      with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
       to_return(mock_response('foreman/valid_response'))
 
     # mock sending xmpp messages globally
@@ -55,7 +51,6 @@ describe Foreman do
       context "Foreman is down" do
         before do 
           stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-            with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
             to_raise("Errno::ECONNREFUSED","Connection refused - connect(2)")
         end
         it do 
@@ -69,7 +64,6 @@ describe Foreman do
         context "it takes more than timeout limit in config" do
           before do 
             stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-              with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
               to_timeout
           end
           it do
@@ -83,7 +77,7 @@ describe Foreman do
         context "host does not exist in Foreman" do
           before do 
             stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-              with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+              with().
               to_return(mock_response('foreman/host_not_found'))
           end 
           it do 
@@ -95,7 +89,7 @@ describe Foreman do
           context "host has not all require fields" do
             before do 
               stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
-                with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+                with().
                 to_return(mock_response('foreman/without_parameters'))
             end
             

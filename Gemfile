@@ -3,7 +3,7 @@ source "https://rubygems.org"
 
 gem 'sensu-plugin'
 gem 'xmpp4r'
-gem 'nexmo'
+gem 'nexmo', :git => 'https://github.com/Virtualmaster/nexmo.git'
 
 group :test do 
   gem "rspec"

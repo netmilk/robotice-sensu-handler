@@ -15,6 +15,7 @@ class Sms
     key = handler.settings['virtualmaster']['sms']['key']
     secret = handler.settings['virtualmaster']['sms']['secret']
     from = handler.settings['virtualmaster']['sms']['from']
+
     nexmo = Nexmo::Client.new(key, secret)
 
     response = nexmo.send_message({

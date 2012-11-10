@@ -27,7 +27,11 @@ class Foreman
       http = Net::HTTP.new(uri.host, uri.port)
       http.read_timeout = limit
       http.open_timeout = limit
-      resp = http.get(uri.path + "?" + uri.query)
+
+      agent = handler.settings['virtualmaster']['user-agent']
+
+      headers = {'Accept'=>'*/*', 'User-Agent'=> agent}
+      resp = http.get(uri.path + "?" + uri.query, headers)
     rescue Timeout::Error
       raise StandardError, "Foreman timeouted after #{limit} seconds."
     rescue SocketError
