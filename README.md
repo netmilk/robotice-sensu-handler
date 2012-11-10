@@ -93,7 +93,7 @@ TODO
 Remote responses are recorded via `curl -is` and saved to `spec/responses/` by
 backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-responses-recorded-with-curl--is) documentation.
 
-## FUTURE
+## Thoughts
 - move spec helpers to namespace
 - refactor static redmine project properties as service json scheme
 - make sending XMPP optional and configurable
@@ -101,3 +101,8 @@ backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-response
 - distribute as Gem
 - distribute as deb, rpm
 - add Dependency status image https://gemnasium.com/changes
+- consider adding Redmine api key to Foreman instead of handler config to be able to submit to multiple redmines
+- mock VirtualmasterHandler class in all /lib specs instead of using real object
+- stub Sensu stash actions instead of stubbing requests
+- avoid Bundle.require in virtualmaster.rb is requiring :test and :dev gem group
+

@@ -47,7 +47,7 @@ describe Redmine do
         @f = Redmine.new(handle(event_descriptor))
       end
       context "Redmine is available" do
-        context "it takes more than timeout limit in config" do
+        context "and it takes more than timeout limit in config" do
           before do
             stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
               with(:body => valid_issue.to_json,
@@ -63,7 +63,7 @@ describe Redmine do
           end
         end
 
-        context "project does not exist in Redmine or issue not created" do
+        context "and project does not exist in Redmine or issue not created" do
           before do
             issue_with_non_existent_project = valid_issue
             @fake_project = issue_with_non_existent_project['issue']['project_id'] = 'wroom'
@@ -89,7 +89,15 @@ describe Redmine do
           end
 
           it "should successfuly create issue" do
-            subject.create_issue(valid_issue).should eq(true)
+            subject.create_issue(valid_issue).should_not eq(false)
+          end
+          it "should return hash containing requested subject" do
+            returned_issue = subject.create_issue(valid_issue)
+            returned_issue['issue']['subject'].should eq(valid_issue['issue']['subject'])
+          end
+          
+          describe "compiled XMPP message" do 
+            it "should contain issue ID"
           end
         end
       end

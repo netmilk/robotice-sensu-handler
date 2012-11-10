@@ -47,12 +47,10 @@ class Redmine
       end
     end
 
-    resp_text = resp.body
-    
     if not resp.code == "201"
       return false
     else
-      return true
+      JSON.parse(resp.body)
     end
   end
 end

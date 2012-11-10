@@ -22,5 +22,6 @@ describe ErrorHandler do
   
   describe "#notify" do 
     it "should send loud notification"
+    it "should log somewhere in GELF format"
   end
 end

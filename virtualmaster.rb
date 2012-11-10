@@ -19,6 +19,7 @@ class VirtualmasterHandler < Sensu::Handler
   attr_reader :xmpp_message
   attr_reader :errors
   attr_reader :redmine
+  attr_reader :issue
 
   def initialize
     @errors = []
@@ -49,14 +50,28 @@ class VirtualmasterHandler < Sensu::Handler
       @redmine['url'] = foreman_data['redmine_url']
       @redmine['project'] = foreman_data['redmine_project']
       @redmine['priority'] = foreman_data['redmine_priority']
+
+      @issue = {
+        :issue => {
+          :project_id => @redmine['project'],
+          :subject => "#{host_name} #{check_name}",
+          :priority_id => '4',
+          :description => check_output
+        }
+      }
+      created_issue = Redmine.new(self).create_issue(@issue)
+
+      if not created_issue == false
+        #override redmine base url with issue url to be sent in XMPP message
+        issue_id = created_issue['issue']['id']
+        @redmine['url'] = @redmine['url'] + '/issues/' + issue_id.to_s
+      end
     end
-    
+
     # compose xmpp message
-    msg = "#{@redmine['priority']} #{@redmine['project']} #{host_name} #{check_name} #{check_output} #{@redmine['url']}"
+    @xmpp_message = "#{@redmine['priority']} #{@redmine['project']} #{host_name} #{check_name} #{check_output} #{@redmine['url']}"
 
-    @xmpp_message = msg
-
-    # WIP let's continue with redmine intergration and remove this
+    # send XNPP in any case
     x = Xmpp.new self
     x.send_message(self.xmpp_message)
   end

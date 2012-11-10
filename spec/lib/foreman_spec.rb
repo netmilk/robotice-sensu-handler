@@ -8,7 +8,8 @@ describe Foreman do
       to_return(:status => 200, :body => "", :headers => {})
     stub_request(:get, "http://foreman.domain.tld/node/node1.domain.tld?format=yml").
       to_return(mock_response('foreman/valid_response'))
-
+    stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+      to_return(:status => 200, :body => "", :headers => {})
     # mock sending xmpp messages globally
     # TODO try to re-invent this to be more DRYer
     # it's already menitoned in virtualmster_spec.rb

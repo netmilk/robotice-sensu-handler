@@ -15,3 +15,7 @@ group :test do
   gem 'webmock'
   gem 'rake'
 end
+
+group :development do
+  gem "rbeautify"
+end
