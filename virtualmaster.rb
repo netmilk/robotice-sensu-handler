@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 require 'rubygems'
-require 'bundler/setup'
+require 'bundler'
 Bundler.require
 
 require 'sensu-handler'
@@ -11,6 +11,11 @@ require 'net/https'
 
 Dir.glob(File.join(File.dirname(__FILE__),'lib','*.rb')).each do |file_path|
   require file_path
+end
+
+#TODO refactor this
+def debug message
+  puts message
 end
 
 class VirtualmasterHandler < Sensu::Handler
@@ -39,41 +44,57 @@ class VirtualmasterHandler < Sensu::Handler
   end
   
   def handle
+    #IGNORE ALL NON CRITICAL EVENTS
+    #0 OK
+    #1 WARNING
+    #2 CRITICAL
+    return false if not @event['check']['status'].to_s == '2'
+    
     f = Foreman.new self
     begin
+      debug "Foreman lookup for host: #{host_name}"
       foreman_data = f.query_host(host_name)
+      debug "Foreman lookup successful"
     rescue StandardError => e
-      @errors << ErrorHandler.new(e.message)
+      @errors << ErrorHandler.new(e)
     end
-   
     if not foreman_data.nil?
-      @redmine['url'] = foreman_data['redmine_url']
-      @redmine['project'] = foreman_data['redmine_project']
-      @redmine['priority'] = foreman_data['redmine_priority']
+      debug "Foreman data:"
+      debug @redmine['url'] = foreman_data['redmine_url']
+      debug @redmine['project'] = foreman_data['redmine_project']
+      debug @redmine['priority'] = foreman_data['redmine_priority']
 
       @issue = {
         :issue => {
           :project_id => @redmine['project'],
           :subject => "#{host_name} #{check_name}",
           :priority_id => '4',
-          :description => check_output
+          :description => check_output + "\n\nJSON:\n<pre>" + JSON.pretty_generate(@event) + "</pre>"
         }
       }
       created_issue = Redmine.new(self).create_issue(@issue)
-
+      debug "Created issue: #{created_issue}"
       if not created_issue == false
         #override redmine base url with issue url to be sent in XMPP message
         issue_id = created_issue['issue']['id']
-        @redmine['url'] = @redmine['url'] + '/issues/' + issue_id.to_s
+        @redmine['url'] = @redmine['url'] + 'issues/' + issue_id.to_s
+        debug "New Redmine issue ID: #{issue_id}"
+
       end
     end
 
     # compose xmpp message
-    @xmpp_message = "#{@redmine['priority']} #{@redmine['project']} #{host_name} #{check_name} #{check_output} #{@redmine['url']}"
-
-    # send XNPP in any case
+    debug "Compiled XMPP message to send:"
+    debug @xmpp_message = "#{@redmine['priority']} #{@redmine['project']} #{host_name} #{check_name} #{check_output} #{@redmine['url']}"
+    
+    # send XMPP in any case
     x = Xmpp.new self
-    x.send_message(self.xmpp_message)
+    if x.send_message(self.xmpp_message)
+      debug "XMPP message sent successfullly"
+    else
+      debug "XMPP message sending failed"
+    end
+    
   end
 end
 

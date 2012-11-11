@@ -1,12 +1,14 @@
 class ErrorHandler
-  attr_reader :message 
+  attr_reader :error 
   
-  def initialize(mes)
-    @message = mes
+  def initialize(err)
+    @error = err
     self.handle
   end
   
   def handle
     #TODO log, notify
+    debug self.error
+    debug self.error.backtrace
   end
 end

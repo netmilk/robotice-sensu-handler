@@ -23,7 +23,10 @@ class Redmine
      'User-Agent'=> agent
     }
 
-    url = host + "/issue.json?key=#{key}"
+    url = host + "/issues.json?key=#{key}"
+
+    debug "Redmine request URL: #{url} "
+    debug "Redmine issue: #{issue.inspect} "
     
     limit = handler.settings['virtualmaster']['redmine']['timeout']
     limit = 1 if limit.nil?
@@ -32,6 +35,7 @@ class Redmine
     uri = URI.parse(url)
     begin
       http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true if uri.scheme == "https"
       http.read_timeout = limit
       http.open_timeout = limit
       resp = http.post(uri.path + "?"+uri.query, issue.to_json, headers)
@@ -47,10 +51,13 @@ class Redmine
       end
     end
 
+    debug "Redmine HTTP status code: #{resp.code}"
+    debug "Redmine response:"
+    debug resp.body
     if not resp.code == "201"
       return false
     else
-      JSON.parse(resp.body)
+      return JSON.parse(resp.body)
     end
   end
 end

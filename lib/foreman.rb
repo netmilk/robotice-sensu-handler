@@ -18,6 +18,7 @@ class Foreman
     host = handler.settings['virtualmaster']['foreman']['host']
     url = host + "/node/#{hostname}?format=yml"
     
+    debug "Lookup URL: #{url}"
     limit = handler.settings['virtualmaster']['foreman']['timeout']
     limit = 1 if limit.nil?
     limit = limit.to_i
@@ -25,6 +26,7 @@ class Foreman
     uri = URI.parse(url)
     begin
       http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true if uri.scheme == "https"
       http.read_timeout = limit
       http.open_timeout = limit
 
@@ -45,13 +47,16 @@ class Foreman
     end
 
     resp_text = resp.body
-    
+
+    debug "Lookup HTTP status code: #{resp.code}"
+
     if resp.code == "404"
       return false
     end
     
     response_hash = YAML::load(resp_text)
-    
+    debug "Response hash:"
+    debug response_hash.to_s
     if response_hash['parameters'].nil?
       return nil
     else
