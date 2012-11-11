@@ -137,5 +137,6 @@ describe VirtualmasterHandler do
         it "should send SMS message"
       end
     end
+    it "should be able to handle HTTPS in all rest services"
   end
 end

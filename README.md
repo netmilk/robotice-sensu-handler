@@ -11,7 +11,7 @@ You need to add some custom fields and enummerators to Redmine:
 *User*
 
 - Ensure you have enabled 'REST service' (Administraton > Settings > Authentication > Enable REST web service)
-- Crate user for monitoring eg: 'Sensu monitoring'
+- Crate user for each sensu monitoring server eg: 'sensu1.domain.tld'
 - Add this user to all projects where Sensu will be able create new issues
 - Login to that user
 - Get API key for that user (My account > API acces key in right column > Show)
@@ -105,4 +105,18 @@ backend. See [WebMock](https://github.com/bblimke/webmock#replaying-raw-response
 - mock VirtualmasterHandler class in all /lib specs instead of using real object
 - stub Sensu stash actions instead of stubbing requests
 - avoid Bundle.require in virtualmaster.rb is requiring :test and :dev gem group
-
+- investigate howto automatize deployment with puppet/salt
+- daemonize
+  - open pipe and let sensu talk to that pipe
+  - enqueue handle(event)
+  - Resque async
+  - initscript
+  - possible 
+  - stale connection to jabber conference
+- debug in production with: cat /etc/sensu/virtualmaster/spec/event.json| /etc/sensu/virtualmaster/virtualmaster.rb
+- redmine should response fith 201 in mock
+- create tickets only for CRITICAL
+- where to send WARGNING or RESOLVED ?
+- bundle package --all
+- log in GELF format
+- debug mode to stdout

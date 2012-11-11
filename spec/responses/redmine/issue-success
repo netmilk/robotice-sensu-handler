@@ -8,6 +8,6 @@ Cache-Control: no-cache
 Set-Cookie: autologin=; path=/; expires=Thu, 01-Jan-1970 00:00:00 GMT
 Set-Cookie: _redmine_default=BAh7BjoCIlMzE1ZTNiMPc2Vzc2lvbl9pZWJmNDFkOGNhYzRmOGY4YjkzMzgwM2I1YjE%3D--b49749b4e0cb328398efcef49a1444575ad32945; path=/; HttpOnly
 Location: https://redmine.domain.tld/issues/1
-X-Runtime: 302
+X-Runtime: 201
 
 {"issue":{"id":87,"project":{"id":3,"name":"Infrastructure monitoring"},"tracker":{"id":4,"name":"Robotice"},"status":{"id":1,"name":"New"},"priority":{"id":4,"name":"Normal"},"author":{"id":4,"name":"Adam Kliment"},"subject":"c1.sit.vmin.cz disk_srv","description":"c1.sit.vmin.cz disk_srv DISK CRITICAL - free space: / 114 MB (6% inode=56%);| /=1624MB;;1556;0;1831","start_date":"2012/11/06","done_ratio":0,"spent_hours":0.0,"created_on":"2012/11/06 19:55:31 +0100","updated_on":"2012/11/06 19:55:31 +0100"}}
