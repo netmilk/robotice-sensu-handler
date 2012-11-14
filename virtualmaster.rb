@@ -15,7 +15,7 @@ end
 
 #TODO refactor this
 def debug message
-  puts message
+ #puts message
 end
 
 class VirtualmasterHandler < Sensu::Handler

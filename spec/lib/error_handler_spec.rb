@@ -1,22 +1,22 @@
 require File.join(File.dirname(__FILE__),'..','spec_helper.rb')
 
-message = "Hip hip"
+error = StandardError.new
 
 describe ErrorHandler do
   describe "instance" do 
-    subject{ErrorHandler.new(message)}
-    it{should respond_to(:message)}
+    subject{ErrorHandler.new(error)}
+    it{should respond_to(:error)}
   end
 
   describe "#new" do 
-    it "should set :message attr" do 
-      e = ErrorHandler.new(message)
-      e.message.should eq(message)
+    it "should set :error attr" do 
+      e = ErrorHandler.new(error)
+      e.error.should eq(error)
     end
 
     it "shuold call :handle" do 
       ErrorHandler.any_instance.should_receive(:handle)
-      ErrorHandler.new(message)
+      ErrorHandler.new(error)
     end 
   end
   

@@ -49,7 +49,7 @@ describe Redmine do
       context "Redmine is available" do
         context "and it takes more than timeout limit in config" do
           before do
-            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+            stub_request(:post, "http://redmine.domain.tld/issues.json?key=s3c43tmuchmuchlonger").
               with(:body => valid_issue.to_json,
                    :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_timeout
@@ -67,7 +67,7 @@ describe Redmine do
           before do
             issue_with_non_existent_project = valid_issue
             @fake_project = issue_with_non_existent_project['issue']['project_id'] = 'wroom'
-            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+            stub_request(:post, "http://redmine.domain.tld/issues.json?key=s3c43tmuchmuchlonger").
               with(:body => issue_with_non_existent_project.to_json,
                    :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_return(mock_response('redmine/issue-uknown-project'))
@@ -82,7 +82,7 @@ describe Redmine do
 
         context "project exists in Redmine" do
           before do
-            stub_request(:post, "http://redmine.domain.tld/issue.json?key=s3c43tmuchmuchlonger").
+            stub_request(:post, "http://redmine.domain.tld/issues.json?key=s3c43tmuchmuchlonger").
               with(:body => valid_issue.to_json,
                    :headers => {'Accept'=>'application/json', 'Content-Type'=>'application/json', 'User-Agent'=>'Virtualmaster Sensu handler'}).
               to_return(mock_response('redmine/issue-success'))

@@ -1,8 +1,10 @@
-Virtualmaster sensu handler  [![Build Status](https://travis-ci.org/Virtualmaster/sensu-virtualmaster.png?branch=master)](https://travis-ci.org/Virtualmaster/sensu-virtualmaster)
+Sensu handler for Robotice  [![Build Status](https://travis-ci.org/Virtualmaster/robotice-sensu-handler.png?branch=master)](https://travis-ci.org/Virtualmaster/robotice-sensu-handler)
 ==================================
 
-Sensu handler for integration with Foreman, Redmine and XMPP/Jabber
+Sensu handler for integration with Foreman, Redmine, XMPP/Jabber and SMS gateways
 
+## Behavior
+TODO
 
 ## Redmine configuration
 
@@ -51,7 +53,7 @@ eg:
 
 ## Installation
 
-- clone `git@github.com:Virtualmaster/sensu-virtualmaster.git` into `/etc/sensu/virtualmaster`
+- clone `git@github.com:Virtualmaster/robotice-sensu-handler.git` into `/etc/sensu/virtualmaster`
 - copy `handlers_virtualmaster.json` to `/etc/sensu/conf.d`
 - add `virtualmaster` handler to your checks
 - copy `virtualmaster.json` to `/etc/sensu/conf.d` and edit hosts and credentials
@@ -63,8 +65,8 @@ TODO
 
 ## Testing and development
 
-    $ git clone git@github.com:Virtualmaster/sensu-virtualmaster.git
-    $ cd sensu-virtualmaster
+    $ git clone git@github.com:Virtualmaster/robotice-sensu-handler.git
+    $ cd robotice-sensu-handler
     $ bundle install
 
 
