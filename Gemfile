@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gem 'sensu-plugin'
 gem 'xmpp4r'
 gem 'nexmo', :git => 'https://github.com/Virtualmaster/nexmo.git'
+gem 'redis'
+gem 'json'
 
 group :test do 
   gem "rspec"
@@ -14,6 +16,7 @@ group :test do
   gem 'rb-fsevent'
   gem 'webmock'
   gem 'rake'
+  gem 'mock_redis'
 end
 
 group :development do

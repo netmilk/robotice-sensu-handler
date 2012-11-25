@@ -37,7 +37,8 @@ end
 
 Spork.each_run do
   require 'webmock/rspec'
-  
+  require 'mock_redis'
+
   #require helpers
   require  File.join(File.dirname(__FILE__), 'virtualmaster_helper.rb')
   

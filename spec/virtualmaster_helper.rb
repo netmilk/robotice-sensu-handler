@@ -2,8 +2,8 @@ def handler
   VirtualmasterHandler.new
 end
 
-def event_descriptor
-  event_path = File.join(File.dirname(__FILE__), 'event.json')
+def event_mock(name)
+  event_path = File.join(File.dirname(__FILE__), 'responses','events',"#{name}.json")
   f = File.open(event_path,'r')
   f
 end

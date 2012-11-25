@@ -1,0 +1,1 @@
+{"output":"HTTP CRITICAL: HTTP/1.1 503 Service Temporarily Unavailable","status":2,"issued":1353857878,"handlers":["default","mailer","xmpp","virtualmaster","gelf","graphite"],"flapping":false,"occurrences":18972,"custom_data":{}}

@@ -13,7 +13,6 @@ describe Xmpp do
         to_return(:status => 200, :body => "", :headers => {})
       stub_request(:get, "http://sensu1.domain.tld:4567/stash/silence/node1.domain.tld/frontend_http_check").
         to_return(:status => 200, :body => "", :headers => {})
-
     end
 
     subject{Xmpp.new(handler)}
@@ -27,7 +26,7 @@ describe Xmpp do
     
     context  "handler settings doeas not contain virtualmster.xmpp" do 
       it do
-        h = handle event_descriptor
+        h = handle event_mock('without_custom_data')
         h.settings['virtualmaster'].delete('xmpp')
 
         lambda{
@@ -44,7 +43,7 @@ describe Xmpp do
           Jabber::Client.any_instance.stub(:auth).and_return(true)
           Jabber::MUC::MUCClient.any_instance.stub(:join){true}
 
-          @h = handle event_descriptor
+          @h = handle event_mock('without_custom_data')
           Xmpp.any_instance.unstub(:send_message)
         end
         
@@ -66,7 +65,7 @@ describe Xmpp do
           Jabber::Client.any_instance.stub(:jid).and_return(jid_mock)
           Jabber::MUC::MUCClient.any_instance.stub(:join){true}
           Jabber::MUC::MUCClient.any_instance.stub(:exit){true}
-          @h = handle event_descriptor
+          @h = handle event_mock('without_custom_data')
           Xmpp.any_instance.unstub(:send_message)
 
         end

@@ -34,7 +34,7 @@ describe Redmine do
 
     context  "handler settings does not contain virtualmster.redmine" do
       it "should raise" do
-        h = handle event_descriptor
+        h = handle event_mock('without_custom_data')
         h.settings['virtualmaster'].delete('redmine')
         lambda{
           Redmine.new h
@@ -44,7 +44,7 @@ describe Redmine do
 
     describe "#create_issue" do
       before do
-        @f = Redmine.new(handle(event_descriptor))
+        @f = Redmine.new(handle(event_mock('without_custom_data')))
       end
       context "Redmine is available" do
         context "and it takes more than timeout limit in config" do

@@ -20,7 +20,6 @@ end
 
 class VirtualmasterHandler < Sensu::Handler
 
-
   attr_reader :xmpp_message
   attr_reader :errors
   attr_reader :redmine
@@ -72,14 +71,24 @@ class VirtualmasterHandler < Sensu::Handler
           :description => check_output + "\n\nJSON:\n<pre>" + JSON.pretty_generate(@event) + "</pre>"
         }
       }
-      created_issue = Redmine.new(self).create_issue(@issue)
-      debug "Created issue: #{created_issue}"
-      if not created_issue == false
-        #override redmine base url with issue url to be sent in XMPP message
-        issue_id = created_issue['issue']['id']
-        @redmine['url'] = @redmine['url'] + 'issues/' + issue_id.to_s
-        debug "New Redmine issue ID: #{issue_id}"
+      
+      if @event.keys.include?('custom_data')
+        if @event['custom_data']['redmine_issue_url'].nil?
+          debug "Event JSON doesn't contain 'redmine_issue_url', creating issue."
+          created_issue = Redmine.new(self).create_issue(@issue)
+          debug "Created issue: #{created_issue}"
 
+          if not created_issue == false
+            #override redmine base url with issue url to be sent in XMPP message
+            issue_id = created_issue['issue']['id']
+            @redmine['url'] = @redmine['url'] + 'issues/' + issue_id.to_s
+            debug "New Redmine issue ID: #{issue_id}, adding to Redis"
+            r = SensuRedis.new(self)
+            r.update_event_redmine_issue_url(@redmine['url'])
+          end
+        else
+          debug "Event JSON contains 'redmine_issue_url', do not creating issue."
+        end
       end
     end
 

@@ -29,7 +29,7 @@ describe Foreman do
     context  "handler settings doeas not contain virtualmster.foreman" do 
   
       it do
-        h = handle event_descriptor
+        h = handle event_mock('without_custom_data')
         h.settings['virtualmaster'].delete('foreman')
         lambda{
           Foreman.new h
@@ -39,7 +39,7 @@ describe Foreman do
 
     describe " #query_host" do
       before do 
-        @f = Foreman.new(handle(event_descriptor))
+        @f = Foreman.new(handle(event_mock('without_custom_data')))
       end
       
             
