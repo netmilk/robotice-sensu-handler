@@ -36,8 +36,7 @@ describe VirtualmasterHandler do
 
         Redmine.any_instance.stub(:create_issue).and_return(valid_issue)
 
-        SensuRedis.any_instance.stub(:update_event_redmine_issue_url)
-          .and_return(true)
+        SensuRedis.any_instance.stub(:update_event_redmine_issue_url).and_return(true)
 
       end
 
